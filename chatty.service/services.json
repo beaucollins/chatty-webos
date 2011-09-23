@@ -1,0 +1,20 @@
+{
+"id": "com.redimastudio.chatty.client",
+"description": "IRC Client Connection",
+"activityTimeout" : 30,
+"services": [{
+    "name": "com.redimastudio.chatty.client",
+    "description": "base64 uploader",
+    "assistant" : "ClientAssistant",
+    "commands": [{
+        "name" : "connect",
+        "assistant" : "ConnectAssistant",
+        "subscribe" : true,
+        "public" : true
+        },{
+        "name" : "message",
+        "assistant" : "MessageAssistant",
+        "public" : true
+        }]
+     }]
+}

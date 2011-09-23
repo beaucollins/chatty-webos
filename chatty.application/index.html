@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+	<title>Chatty</title>
+	<meta charset="utf-8">
+</head>
+<body>
+  <script type="text/javascript" charset="utf-8">
+    (function(){
+      
+      var launcher = enyo.application.launcher = new ChattyApp();
+      
+      enyo.applicationRelaunchHandler = function(params){
+        enyo.application.launcher.relaunch(params);
+      }
+      
+      launcher.startup();
+      
+    })();
+  </script>
+</body>
+</html>

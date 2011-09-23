@@ -1,0 +1,11 @@
+.log {
+  background:#FFF;
+}
+
+.log p {
+  font-family: monospace;
+  font-size: 12px;
+  margin:0;
+  padding:5px;
+  border-bottom:1px dotted #EEE;
+}

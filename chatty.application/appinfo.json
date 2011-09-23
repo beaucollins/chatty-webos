@@ -1,0 +1,11 @@
+{
+	"id": "com.redimastudio.chatty",
+	"version": "1.0.0",
+	"vendor": "Redima Studio",
+	"type": "web",
+	"main": "index.html",
+	"noWindow": true,
+	"title": "Chatty",
+	"icon": "icon.png",
+	"uiRevision": 2
+}
