@@ -1,5 +1,5 @@
 enyo.depends(
+  "source/ChatClient.js",
   "source/ConnectionManager.js",
-  "source/IRCClient.js",
   "css/style.css"
 );

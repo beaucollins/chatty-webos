@@ -20,7 +20,7 @@ var ClientManager = function(){
   }
   
   this.getClient = function(clientId){
-    return clients[client.id];
+    return clients[clientId];
   }
   
 }
@@ -38,7 +38,7 @@ ClientAssistant.prototype.createConnection = function(){
 }
 
 ClientAssistant.prototype.getClient = function(clientId){
-  return this.manager.getClient(client.id);
+  return this.manager.getClient(clientId);
 }
 
 ClientAssistant.prototype.setup = function(){

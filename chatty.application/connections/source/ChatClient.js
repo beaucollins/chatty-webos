@@ -1,5 +1,6 @@
 enyo.kind({
-  name:"IRCClient",
+  name:"ChatClient",
+  kind:'Component',
   published: {
     host:'irc.freenode.net',
     port:6667,
@@ -28,23 +29,27 @@ enyo.kind({
       host:this.host,
       port:this.port
     });
-  }
+  },
   failed:function(service, response, request){
     this.doFailure(response, request);
   },
   receivedData:function(service, response, request){
     if (response.status == 'connect') {
-      this.clientId = response.client_id;
+      this.clientId = response.clientId;
       this.doConnect();
-      this.write("NICK " + this.nick + "\r\n" + "USER " + this.nick + " 0 * " + this.name);
-    };
+      this.write("NICK " + this.nick + "\r\n" + "USER " + this.nick + " 0 * " + this.name + "\r\n");
+    }else if (response.status == 'read') {
+      this.doMessageReceived(response.data);
+    }else if (response.status == 'close'){
+      this.doClose();
+    }
   },
   sentMessage:function(service, response, request){
     this.doMessageSent(response.message);
   },
   write:function(data){
     this.$.message.call({
-      client
+      clientId:this.clientId,
       message:data
     });
   }

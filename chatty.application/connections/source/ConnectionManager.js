@@ -2,6 +2,7 @@ enyo.kind({
   name:'ConnectionManager',
   kind:'VFlexBox',
   components:[
+    {name:'irc_client', kind:'ChatClient', onMessageSent:'messageSent', onMessageReceived:'messageReceived', onConnect:'connected'},
     {kind:'HFlexBox', flex:1, components:[
       { kind:'VFlexBox', flex:1, components:[
         {kind:'Header', content:'Config'},
@@ -19,24 +20,18 @@ enyo.kind({
         { kind:'Scroller', flex:1, components:[
           { name:'log', className:'log', allowHtml:true}
         ]},
-        { kind:'Toolbar', components:[
-          { caption:"Join Room" }
+        { name:'composer', kind:"HFlexBox", components:[
+          { name:"messageInput", kind: 'Input', flex:1, oninput:'checkMessage', onkeypress:'sendOnEnter' },
+          { name:'sendButton', kind: 'Button', caption:'Send', onclick:"sendMessage", disabled:true }
         ] }
       ]}
     ]}
   ],
   connect: function(sender){
-    this.appendLog("<p>Connecting ...</p>");
-    this.createComponent({
-      name:'irc_client',
-      kind:'IRCClient',
-      host:this.$.host.value,
-      port:this.$.port.value,
-      nick:this.$.nick.value,
-      onMessageSent: "messageSent",
-      onMessageReceived: "messageReceived",
-      onConnect: "connected"
-    });
+    var chat_client = this.$.irc_client;
+    chat_client.setHost(this.$.host.value);
+    chat_client.setPort(this.$.port.value);
+    chat_client.setNick(this.$.nick.value);
     this.$.irc_client.connect();
     this.appendLog("<p>Connecting ...</p>");
   },
@@ -54,5 +49,21 @@ enyo.kind({
   },
   appendLog:function(message){
     this.$.log.setContent(this.$.log.content + message);
+    this.$.scroller.scrollToBottom();
+  },
+  checkMessage:function(sender, event, value){
+    if (value && value.trim() != "") {
+      this.$.sendButton.setDisabled(false);
+    };
+  },
+  sendOnEnter:function(sender, event){
+    if (event.which == 13) {
+      this.sendMessage(sender, event, this.$.messageInput.value);
+      event.preventDefault();
+    };
+  },
+  sendMessage:function(sender, event, value){
+    this.$.messageInput.setValue('');
+    this.$.irc_client.write(value + "\r\n");
   }
 });
